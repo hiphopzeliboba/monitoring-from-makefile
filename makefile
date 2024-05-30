@@ -26,9 +26,9 @@ install_promtail:
 	@echo "Installing Promtail..."
 	wget $(PROMTAIL_URL)
 	unzip promtail-linux-amd64.zip
-	sudo mv promtail-linux-amd64 $(PROMTAIL_DIR)/promtail
-	sudo chmod +x $(PROMTAIL_DIR)/promtail
-	sudo mkdir -p $(PROMTAIL_DIR)
+	sudo mkdir $(PROMTAIL_DIR)
+	sudo mv promtail-linux-amd64 $(PROMTAIL_DIR)
+	sudo chmod a+x $(PROMTAIL_DIR)/promtail-linux-amd64
 	sudo wget https://raw.githubusercontent.com/grafana/loki/v$(PROMTAIL_VERSION)/clients/cmd/promtail/promtail-local-config.yaml
 	sudo mv promtail-local-config.yaml $(PROMTAIL_DIR)
 	sudo touch /etc/systemd/system/promtail.service
@@ -38,7 +38,7 @@ install_promtail:
 	After=network.target\n\
 	[Service]\n\
 	User=nobody\n\
-	ExecStart=$(PROMTAIL_DIR)/promtail -config.file=$(PROMTAIL_DIR)/promtail-local-config.yaml\n\
+	ExecStart=$(PROMTAIL_DIR)/promtail-linux-amd64 -config.file=$(PROMTAIL_DIR)/promtail-local-config.yaml\n\
 	Restart=on-failure\n\
 	[Install]\n\
 	WantedBy=multi-user.target" | sudo tee /etc/systemd/system/promtail.service > /dev/null
@@ -52,11 +52,11 @@ install_loki:
 	@echo "Installing Loki..."
 	wget $(LOKI_URL)
 	unzip loki-linux-amd64.zip
-	sudo mv loki-linux-amd64 $(INSTALL_DIR)/loki
-	sudo chmod +x $(LOKI_DIR)/loki
-	sudo mkdir -p $(LOKI_DIR)
+	sudo mkdir $(LOKI_DIR)
+	sudo mv loki-linux-amd64 $(INSTALL_DIR)
+	sudo chmod a+x $(LOKI_DIR)/loki-linux-amd64
 	sudo wget https://raw.githubusercontent.com/grafana/loki/v$(LOKI_VERSION)/cmd/loki/loki-local-config.yaml
-	sudo mv loki-local-config.yaml $(LOKI_DIR)/loki-local-config.yaml
+	sudo mv loki-local-config.yaml $(LOKI_DIR)
 	sudo touch /etc/systemd/system/loki.service
 
 	echo "[Unit]\n\
@@ -64,7 +64,7 @@ install_loki:
 	After=network.target\n\
 	[Service]\n\
 	User=nobody\n\
-	ExecStart=$(LOKI_DIR)/loki -config.file=$(LOKI_DIR)/loki-local-config.yaml\n\
+	ExecStart=$(LOKI_DIR)/loki-linux-amd64 -config.file=$(LOKI_DIR)/loki-local-config.yaml\n\
 	Restart=on-failure\n\
 	[Install]\n\
 	WantedBy=multi-user.target" | sudo tee /etc/systemd/system/loki.service > /dev/null
@@ -92,7 +92,6 @@ install_grafana:
 	\n\
 	[Install]\n\
 	WantedBy=multi-user.target" | sudo tee /etc/systemd/system/grafana.service > /dev/null
-
 
 	sudo systemctl daemon-reload
 	sudo systemctl enable grafana
