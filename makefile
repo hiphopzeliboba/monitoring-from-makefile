@@ -144,7 +144,9 @@ install_prometheus:
 	sudo systemctl enable prometheus
 
 clean:
-	rm grafana-$(GARAFANA_VERSION).linux-amd64.tar.gz
-	rm -f promtail-linux-amd64.zip 
-    	rm -f loki-linux-amd64.zip
-    	
+
+	rm -f grafana-$(GRAFANA_VERSION).linux-amd64.tar.gz
+	rm -f promtail-linux-amd64.zip
+	rm -f loki-linux-amd64.zip
+	rm -f node_exporter-$(NODE_EXPORTER_VERSION).linux-amd64.tar.gz
+	rm -f prometheus-$(PROMETHEUS_VERSION).linux-amd64.tar.gz
