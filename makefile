@@ -53,7 +53,7 @@ install_loki:
 	wget $(LOKI_URL)
 	unzip loki-linux-amd64.zip
 	sudo mkdir $(LOKI_DIR)
-	sudo mv loki-linux-amd64 $(INSTALL_DIR)
+	sudo mv loki-linux-amd64 $(LOKI_DIR)
 	sudo chmod a+x $(LOKI_DIR)/loki-linux-amd64
 	sudo wget https://raw.githubusercontent.com/grafana/loki/v$(LOKI_VERSION)/cmd/loki/loki-local-config.yaml
 	sudo mv loki-local-config.yaml $(LOKI_DIR)
@@ -143,11 +143,8 @@ install_prometheus:
 	sudo systemctl start prometheus
 	sudo systemctl enable prometheus
 
-
-
-
 clean:
-	rm -rf /usr/local/grafana/
-	rm -rf /etc/systemd/system/grafana.service
-    rm - rf node_exporter-1.8.1.linux-amd64
-    rm -f promtail-linux-amd64.zip loki-linux-amd64.zip grafana-$(GRAFANA_VERSION)-linux-amd64.tar.gz
+	rm grafana-$(GARAFANA_VERSION).linux-amd64.tar.gz
+	rm -f promtail-linux-amd64.zip 
+    	rm -f loki-linux-amd64.zip
+    	
