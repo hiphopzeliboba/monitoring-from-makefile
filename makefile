@@ -131,11 +131,10 @@ install_prometheus:
 	echo "[Unit]\n\
 	Description=Prometheus\n\
 	Wants=network-online.target\n\
-	After=network-online.target\n\
+	After=network.target\n\
 	[Service]\n\
-	User=nobody\n\
 	Type=simple\n\
-	ExecStart=$(PROMETHEUS_DIR)/prometheus\n\
+	ExecStart=$(PROMETHEUS_DIR)/prometheus --config.file=$(PROMETHEUS_DIR)/prometheus.yml\n\
 	[Install]\n\
 	WantedBy=multi-user.target" | sudo tee /etc/systemd/system/prometheus.service > /dev/null
 
